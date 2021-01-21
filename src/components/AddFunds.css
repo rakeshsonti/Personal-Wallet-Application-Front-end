@@ -1,0 +1,44 @@
+.userLabel {
+   width: 20%;
+   font-size: small;
+   font-weight: bold;
+   font-family: Helvetica, sans-serif;
+}
+.userBalance {
+   width: 40%;
+}
+.subcontainer {
+   display: flex;
+   flex-direction: row;
+   margin-top: 20px;
+   width: 60%;
+   margin-left: 10%;
+}
+.maincontainer {
+   display: flex;
+   flex-direction: column;
+   font-family: Helvetica, sans-serif;
+}
+.userList {
+   display: flex;
+   flex-direction: column;
+   width: 50%;
+   margin-left: 20%;
+   border-radius: 15px !important;
+   border: 1px solid #c7cfb7;
+   margin-top: 10px;
+   height: 150px;
+   overflow: auto;
+   font-family: Helvetica, sans-serif;
+}
+.userList :hover {
+   background-color: #6f9eaf;
+   cursor: pointer;
+   color: #00303f;
+}
+.btn1 {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+}
