@@ -42,8 +42,12 @@ function CheckBalance() {
                );
             })}
          </ListGroup>
-         <div className="btn1">
-            <Button color="primary" style={{ marginTop: "5px" }}>
+         <div className="getBalCss">
+            <Button
+               color="primary"
+               style={{ marginTop: "5px" }}
+               disabled={activeUser === undefined}
+            >
                Get Balance
             </Button>
          </div>

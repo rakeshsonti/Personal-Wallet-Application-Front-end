@@ -18,6 +18,7 @@ function SpendFunds() {
    const [amount, setAmount] = useState("");
    const [newAmount, setNewAmount] = useState("");
    let mp = ["ram", "shyam", "krishna", "raja", "bhindi", "gobi", "karelallal"];
+   console.log(newAmount);
    return (
       <div className="maincontainer">
          <div className="subcontainer">
@@ -59,7 +60,7 @@ function SpendFunds() {
                name="inputbalance"
                id="inputbalance"
                className="userBalance"
-               placeholder="Enter Your Amount "
+               placeholder="Enter Amount to Spend "
                valid={isNullOrUndefined(isAmountValid) ? null : isAmountValid}
                invalid={
                   isNullOrUndefined(isAmountValid) ? null : !isAmountValid
@@ -78,11 +79,11 @@ function SpendFunds() {
                value={amount}
             ></Input>
          </div>
-         <div className="btn1">
+         <div className="mysubmitbtn">
             <Button
                color="primary"
                style={{ marginTop: "5px" }}
-               disabled={!isAmountValid}
+               disabled={!isAmountValid || activeUser === undefined}
             >
                Submit
             </Button>

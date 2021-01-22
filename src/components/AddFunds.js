@@ -12,11 +12,11 @@ function AddFunds() {
    };
 
    const [activeUser, setActiveUser] = useState();
-   // console.log("active user :", activeUser);
    const regexAmount = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
    const [isAmountValid, setIsAmountValid] = useState();
    const [amount, setAmount] = useState("");
    const [newAmount, setNewAmount] = useState("");
+   console.log(newAmount);
    let mp = ["ram", "shyam", "krishna", "raja", "bhindi", "gobi", "karelallal"];
    return (
       <div className="maincontainer">
@@ -59,7 +59,7 @@ function AddFunds() {
                name="inputbalance"
                id="inputbalance"
                className="userBalance"
-               placeholder="Enter Your Amount "
+               placeholder="Enter Amount to Add"
                valid={isNullOrUndefined(isAmountValid) ? null : isAmountValid}
                invalid={
                   isNullOrUndefined(isAmountValid) ? null : !isAmountValid
@@ -78,11 +78,11 @@ function AddFunds() {
                value={amount}
             ></Input>
          </div>
-         <div className="btn1">
+         <div className="submitbtn">
             <Button
                color="primary"
                style={{ marginTop: "5px" }}
-               disabled={!isAmountValid}
+               disabled={!isAmountValid || activeUser === undefined}
             >
                Submit
             </Button>

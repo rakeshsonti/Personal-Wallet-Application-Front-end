@@ -42,3 +42,9 @@
    justify-content: center;
    align-items: center;
 }
+.submitbtn {
+   display: flex;
+   flex-direction: row;
+   justify-content: center;
+   align-items: center;
+}
