@@ -46,3 +46,12 @@
    background-color: #e7d9ea;
    font-family: Helvetica, sans-serif;
 }
+.fallback {
+   color: rgba(0, 0, 205, 0.986);
+   font-weight: bold;
+   font-size: large;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
