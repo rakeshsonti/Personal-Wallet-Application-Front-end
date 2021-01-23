@@ -15,9 +15,18 @@ function NewWallet() {
    const [isAmountValid, setIsAmountValid] = useState();
    const [amount, setAmount] = useState("");
    const [newAmount, setNewAmount] = useState("");
-   const isValidate = (event) => {
+   const isValidate = async (event) => {
       event.preventDefault();
-      console.log(name, phone, amount, newAmount);
+      fetch("http://localhost:9999/user", {
+         method: "POST",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ username: name, phone, amount: newAmount }),
+         credentials: "include",
+      }).then((r) => {
+         console.log(r);
+      });
    };
    return (
       <>
@@ -62,7 +71,6 @@ function NewWallet() {
                   }
                   onChange={(evt) => {
                      const phoneValue = evt.target.value.trim();
-                     console.log(phoneValue);
                      if (phoneValue.match(phoneno)) {
                         setIsPhoneValid(true);
                      } else {
@@ -97,7 +105,6 @@ function NewWallet() {
                      } else {
                         setIsAmountValid(false);
                      }
-                     console.log(amountValue);
                      setAmount(evt.target.value);
                   }}
                   value={amount}
@@ -119,6 +126,7 @@ function NewWallet() {
 }
 export default NewWallet;
 /*
+Note:
 ^[1-9] The number must start with 1-9
 \d* The number can then have any number of any digits
 (...)$ look at the next group from the end (...)$

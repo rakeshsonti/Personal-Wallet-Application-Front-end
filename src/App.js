@@ -115,6 +115,9 @@ function App() {
                      <Route path="/alltransactions">
                         <AllTransactions />
                      </Route>
+                     <Route path="/">
+                        <AllWallets />
+                     </Route>
                   </Switch>
                </div>
             </Router>

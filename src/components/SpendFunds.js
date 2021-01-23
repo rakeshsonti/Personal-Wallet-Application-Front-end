@@ -1,24 +1,55 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label, Input, ListGroup, ListGroupItem, Button } from "reactstrap";
 import "./SpendFunds.css";
 function SpendFunds() {
-   const isNullOrUndefined = (value) => {
-      return value === undefined || value == null ? true : false;
-   };
-
-   const activeUserHandler = (value, index) => {
-      const temp = `${value}${index}`;
-      setActiveUser(temp);
-   };
-
+   const [walltes, setWallets] = useState([]);
+   const [activeUserName, setActiveUserName] = useState("");
    const [activeUser, setActiveUser] = useState();
-   // console.log("active user :", activeUser);
    const regexAmount = /^[1-9]\d*(((,\d{3}){1})?(\.\d{0,2})?)$/;
    const [isAmountValid, setIsAmountValid] = useState();
    const [amount, setAmount] = useState("");
    const [newAmount, setNewAmount] = useState("");
-   let mp = ["ram", "shyam", "krishna", "raja", "bhindi", "gobi", "karelallal"];
-   console.log(newAmount);
+   useEffect(() => {
+      fetch("http://localhost:9999/allwallets", {
+         method: "GET",
+         credentials: "include",
+      })
+         .then((r) => {
+            if (r.ok) {
+               return r.json();
+            } else {
+               console.log("err", r);
+            }
+         })
+         .then((r) => {
+            setWallets([...r]);
+            console.log(r);
+         });
+   }, []);
+   const isNullOrUndefined = (value) => {
+      return value === undefined || value == null ? true : false;
+   };
+   const activeUserHandler = (value, name) => {
+      const temp = `${value}`;
+      setActiveUserName(name);
+      setActiveUser(temp);
+   };
+   const spendAmount = () => {
+      fetch("http://localhost:9999/spendfunds", {
+         method: "PUT",
+         headers: {
+            "Content-Type": "application/json",
+         },
+         body: JSON.stringify({ user_id: activeUser, amount: newAmount }),
+         credentials: "include",
+      }).then((r) => {
+         if (r.ok) {
+            console.log(r);
+         } else {
+            console.log("err", r);
+         }
+      });
+   };
    return (
       <div className="maincontainer">
          <div className="subcontainer">
@@ -29,24 +60,24 @@ function SpendFunds() {
                type="text"
                name="balance"
                id="balance"
-               defaultValue=""
+               value={activeUserName}
                disabled
                className="userBalance"
                valid
             ></Input>
          </div>
          <ListGroup className="userList">
-            {mp.map((value, index) => {
+            {walltes.map((value, index) => {
                return (
                   <ListGroupItem
-                     key={`${value}${index}`}
+                     key={`${value.user_id}${index}`}
                      color="success"
-                     active={`${value}${index}` === activeUser}
+                     active={`${value.user_id}` === activeUser}
                      onClick={() => {
-                        return activeUserHandler(value, index);
+                        return activeUserHandler(value.user_id, value.username);
                      }}
                   >
-                     {value}
+                     {value.username}
                   </ListGroupItem>
                );
             })}
@@ -60,7 +91,7 @@ function SpendFunds() {
                name="inputbalance"
                id="inputbalance"
                className="userBalance"
-               placeholder="Enter Amount to Spend "
+               placeholder="Enter Amount to Spend"
                valid={isNullOrUndefined(isAmountValid) ? null : isAmountValid}
                invalid={
                   isNullOrUndefined(isAmountValid) ? null : !isAmountValid
@@ -73,17 +104,17 @@ function SpendFunds() {
                   } else {
                      setIsAmountValid(false);
                   }
-                  console.log(amountValue);
                   setAmount(evt.target.value);
                }}
                value={amount}
             ></Input>
          </div>
-         <div className="mysubmitbtn">
+         <div className="submitbtn">
             <Button
                color="primary"
                style={{ marginTop: "5px" }}
                disabled={!isAmountValid || activeUser === undefined}
+               onClick={spendAmount}
             >
                Submit
             </Button>

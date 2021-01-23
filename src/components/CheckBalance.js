@@ -1,15 +1,50 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Label, Input, ListGroup, ListGroupItem, Button } from "reactstrap";
 import "./CheckBalance.css";
 function CheckBalance() {
-   const activeUserHandler = (value, index) => {
-      const temp = `${value}${index}`;
+   const [activeUser, setActiveUser] = useState();
+   const [usr, setUsr] = useState("");
+   const [activeUserName, setActiveUserName] = useState("No User");
+   const [walltes, setWallets] = useState([]);
+   const [bal, setBal] = useState(-1);
+   useEffect(() => {
+      fetch("http://localhost:9999/allwallets", {
+         method: "GET",
+         credentials: "include",
+      })
+         .then((r) => {
+            if (r.ok) {
+               return r.json();
+            } else {
+               console.log("err", r);
+            }
+         })
+         .then((r) => {
+            setWallets([...r]);
+            console.log(r);
+         });
+   }, []);
+   const activeUserHandler = (value, name) => {
+      setActiveUserName(name);
+      const temp = `${value}`;
       setActiveUser(temp);
    };
-   const [activeUser, setActiveUser] = useState();
-   // console.log("active user :", activeUser);
-
-   let mp = ["ram", "shyam", "krishna", "raja", "bhindi", "gobi", "karelallal"];
+   const getBalance = () => {
+      fetch(`http://localhost:9999/balance?user_id=${activeUser}`, {
+         method: "GET",
+         credentials: "include",
+      })
+         .then((r) => {
+            if (r.ok) {
+               return r.json();
+            } else {
+               console.log("err", r);
+            }
+         })
+         .then((r) => {
+            setBal(r.balance);
+         });
+   };
    return (
       <div className="maincontainer">
          <div className="subcontainer">
@@ -20,24 +55,28 @@ function CheckBalance() {
                type="text"
                name="balance"
                id="balance"
-               defaultValue=""
+               value={
+                  bal === -1
+                     ? "No user No Money"
+                     : `${usr} :${Number(bal) / 100} (RS)`
+               }
                disabled
                className="userBalance"
                valid
             ></Input>
          </div>
          <ListGroup className="userList">
-            {mp.map((value, index) => {
+            {walltes.map((value, index) => {
                return (
                   <ListGroupItem
-                     key={`${value}${index}`}
+                     key={`${value.user_id}${index}`}
                      color="success"
-                     active={`${value}${index}` === activeUser}
+                     active={`${value.user_id}` === activeUser}
                      onClick={() => {
-                        return activeUserHandler(value, index);
+                        return activeUserHandler(value.user_id, value.username);
                      }}
                   >
-                     {value}
+                     {value.username}
                   </ListGroupItem>
                );
             })}
@@ -47,6 +86,10 @@ function CheckBalance() {
                color="primary"
                style={{ marginTop: "5px" }}
                disabled={activeUser === undefined}
+               onClick={() => {
+                  getBalance();
+                  setUsr(activeUserName);
+               }}
             >
                Get Balance
             </Button>

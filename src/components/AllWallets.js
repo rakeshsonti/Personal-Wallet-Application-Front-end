@@ -1,7 +1,25 @@
+import { useEffect, useState } from "react";
 import { Table } from "reactstrap";
 import "./AllWallets.css";
 function AllWallets() {
-   // const allData=[{}];
+   const [walltes, setWallets] = useState([]);
+   useEffect(() => {
+      fetch("http://localhost:9999/allwallets", {
+         method: "GET",
+         credentials: "include",
+      })
+         .then((r) => {
+            if (r.ok) {
+               return r.json();
+            } else {
+               console.log("err", r);
+            }
+         })
+         .then((r) => {
+            setWallets([...r]);
+            console.log(r);
+         });
+   }, []);
    return (
       <>
          <Table className="mytable">
@@ -14,24 +32,16 @@ function AllWallets() {
                </tr>
             </thead>
             <tbody>
-               <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>9988999877</td>
-                  <td>765.43</td>
-               </tr>
-               <tr>
-                  <th scope="row">2</th>
-                  <td>Jacob</td>
-                  <td>7763423688</td>
-                  <td>443.24</td>
-               </tr>
-               <tr>
-                  <th scope="row">3</th>
-                  <td>Larry</td>
-                  <td>3434545666</td>
-                  <td>20.05</td>
-               </tr>
+               {walltes.map((value, index) => {
+                  return (
+                     <tr key={`${value.user_id}${index}`}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{value.username}</td>
+                        <td>{value.phone}</td>
+                        <td>{value.balance / 100}</td>
+                     </tr>
+                  );
+               })}
             </tbody>
          </Table>
       </>
