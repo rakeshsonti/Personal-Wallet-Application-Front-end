@@ -45,8 +45,10 @@ function SpendFunds() {
       }).then((r) => {
          if (r.ok) {
             console.log(r);
+            setIsAmountValid(true);
          } else {
             console.log("err", r);
+            setIsAmountValid(false);
          }
       });
    };
