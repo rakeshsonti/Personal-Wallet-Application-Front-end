@@ -10,7 +10,7 @@
    display: flex;
    flex-direction: row;
    margin-top: 20px;
-   width: 60%;
+   width: 100%;
    margin-left: 10%;
 }
 .maincontainer {
@@ -40,8 +40,12 @@
    align-items: center;
 }
 .mysubmitbtn {
-   display: flex;
-   flex-direction: row;
+   /* display: flex; */
+   /* flex-direction: row; */
    justify-content: center;
    align-items: center;
+   margin-left: 50%;
+}
+.sbmt-btn {
+   margin-left: 50% !important;
 }
