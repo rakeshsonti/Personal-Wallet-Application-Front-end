@@ -117,7 +117,7 @@ function SpendFunds() {
                style={{ marginTop: "5px" }}
                disabled={!isAmountValid || activeUser === undefined}
                onClick={spendAmount}
-               className="sbmt-btn"
+               // className="sbmt-btn"
             >
                Submit
             </Button>

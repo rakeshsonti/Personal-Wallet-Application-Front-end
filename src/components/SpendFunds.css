@@ -40,12 +40,9 @@
    align-items: center;
 }
 .mysubmitbtn {
-   /* display: flex; */
-   /* flex-direction: row; */
-   justify-content: center;
-   align-items: center;
-   margin-left: 50%;
-}
-.sbmt-btn {
-   margin-left: 50% !important;
+   display: flex !important;
+   flex-direction: row !important;
+   justify-content: center !important;
+   align-items: center !important;
+   /* margin-left: 50%  ; */
 }
